@@ -29,6 +29,14 @@ int pass_data(int pid, int master, FILE *fh)
             perror("select failed");
         else if(ready)
         {
+            if(FD_ISSET(STDIN_FILENO, fdsp))
+            {
+                bc = read(STDIN_FILENO, buf, sizeof buf);
+                if(bc < 0)
+                    perror("read failed");
+                else
+                    write(master, buf, bc);
+            }
             if(FD_ISSET(master, fdsp))
             {
                 bc = read(master, buf, sizeof buf);
@@ -39,14 +47,6 @@ int pass_data(int pid, int master, FILE *fh)
                     write(STDOUT_FILENO, buf, bc);
                     fwrite(buf, 1, bc, fh);
                 }
-            }
-            if(FD_ISSET(STDIN_FILENO, fdsp))
-            {
-                bc = read(STDIN_FILENO, buf, sizeof buf);
-                if(bc < 0)
-                    perror("read failed");
-                else
-                    write(master, buf, bc);
             }
         }
         npid = waitpid(pid, &status, WNOHANG);
@@ -69,9 +69,16 @@ int main(int argl, char *argv[])
     struct winsize dim;
     const char *ofname = "ttylog.log";
     const char *shell = "/usr/bin/bash";
+    char *shellenv = getenv("SHELL");
     FILE *fh = NULL;
     if(argv[1] != NULL)
         ofname = argv[1];
+    if(shellenv != NULL)
+    {
+        char *str = malloc(1 + strlen(shellenv));
+        strcpy(str, shellenv);
+        shell = shellenv = str;
+    }
     succ = ioctl(STDIN_FILENO, TIOCGWINSZ, &dim);
     if(succ >= 0)
     {
@@ -86,6 +93,8 @@ int main(int argl, char *argv[])
             if(pid > 0)
             {
                 close(slave);
+                if(shellenv != NULL)
+                    free(shellenv);
                 fh = fopen(ofname, "w");
                 if(fh == NULL)
                     perror("fopen failed");
