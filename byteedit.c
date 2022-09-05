@@ -74,6 +74,8 @@ int maketmps(int fcnt, char *files[])
             }
             close(fromfd);
             close(tofd);
+            if(rename(path, files[i]) == -1)
+                perror("rename failed");
         }
     }
     else
@@ -107,7 +109,8 @@ int execed(const char *ed, char *argv[])
 int main(int argl, char *argv[])
 {
     int succ = 0;
-    const char *ed = "vi";
+    char viarr[] = "vi";
+    char *ed = viarr;
     char *edenv;
     char edenvbuf[91];
     edenv = getenv("EDITOR");
@@ -115,6 +118,12 @@ int main(int argl, char *argv[])
     {
         strcpy(edenvbuf, edenv);
         ed = edenvbuf;
+    }
+    *argv = ed;
+    maketmps(argl - 1, argv + 1);
+    if(succ == 0)
+    {
+        succ = execed(ed, argv);
     }
     return succ;
 }
