@@ -44,7 +44,7 @@ int maketmps(int fcnt, char *files[])
                 perror("opening file failed");
                 continue;
             }
-            tofd = open(path, O_WRONLY, O_CREAT);
+            tofd = open(path, O_WRONLY | O_CREAT, 0666);
             if(tofd == -1)
             {
                 close(fromfd);
