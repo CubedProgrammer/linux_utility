@@ -1,4 +1,5 @@
 #include<pty.h>
+#include<signal.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -8,6 +9,25 @@
 #include<termios.h>
 #include<time.h>
 #include<unistd.h>
+
+int slaveterm;
+
+void handle_sigwinch(int x)
+{
+    if(slaveterm)
+    {
+        struct winsize dim;
+        int succ = ioctl(STDIN_FILENO, TIOCGWINSZ, &dim);
+        if(succ == 0)
+        {
+            succ = ioctl(slaveterm, TIOCSWINSZ, &dim);
+            if(succ < 0)
+                perror("ioctl TIOCSWINSZ failed");
+        }
+        else
+            perror("ioctl TIOCGWINSZ failed");
+    }
+}
 
 int pass_data(int pid, int master, FILE *fh)
 {
@@ -71,6 +91,8 @@ int main(int argl, char *argv[])
     const char *shell = "/usr/bin/bash";
     char *shellenv = getenv("SHELL");
     FILE *fh = NULL;
+    if(signal(SIGWINCH, handle_sigwinch) == SIG_ERR)
+        perror("signal failed");
     if(argv[1] != NULL)
         ofname = argv[1];
     if(shellenv != NULL)
@@ -92,7 +114,7 @@ int main(int argl, char *argv[])
             pid = fork();
             if(pid > 0)
             {
-                close(slave);
+                slaveterm = slave;
                 if(shellenv != NULL)
                     free(shellenv);
                 fh = fopen(ofname, "w");

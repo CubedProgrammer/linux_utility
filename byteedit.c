@@ -5,9 +5,9 @@
 #include<sys/ioctl.h>
 #include<sys/stat.h>
 #include<sys/wait.h>
+#include<time.h>
 #include<unistd.h>
 
-const char TMPDIR[] = "/tmp/cpbyteedittmpfile";
 int maketmps(int fcnt, char *files[])
 {
     int succ;
@@ -16,28 +16,18 @@ int maketmps(int fcnt, char *files[])
     unsigned char inbuf[16384];
     char outbuf[16384];
     ssize_t bc;
-    size_t tmplen = sizeof TMPDIR;
     unsigned rc = 24, cc = 80;
     unsigned outpos;
     struct winsize tsz;
-    if(access(TMPDIR, F_OK))
-        succ = mkdir(TMPDIR, 0755);
-    else
-        succ = 0;
+    succ = ioctl(STDIN_FILENO, TIOCGWINSZ, &tsz);
     if(succ == 0)
     {
-        if(ioctl(STDIN_FILENO, TIOCGWINSZ, &tsz) < 0)
-            perror("ioctl TIOCGWINSZ failed");
-        else
-        {
-            rc = tsz.ws_row;
-            cc = tsz.ws_col;
-        }
-        strcpy(path, TMPDIR);
-        path[tmplen - 1] = '/';
+        rc = tsz.ws_row;
+        cc = tsz.ws_col;
         for(int i = 0; i < fcnt; ++i)
         {
-            strcpy(path + tmplen, files[i]);
+            sprintf(path, "%08x", (int) time(NULL));
+            strcpy(path + 8, files[i]);
             fromfd = open(files[i], O_RDONLY);
             if(fromfd == -1)
             {
@@ -79,7 +69,7 @@ int maketmps(int fcnt, char *files[])
         }
     }
     else
-        perror("mkdir failed");
+        perror("ioctl TIOCGWINSZ failed");
     return succ;
 }
 
