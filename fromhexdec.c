@@ -23,17 +23,18 @@ size_t fromhexdec(void *src, void *dest, int(*gch)(void*), int(*pch)(int, void*)
         {
             pch(b, dest);
             b = 0;
+            ++cnt;
         }
     }
     if(!complete)
         pch(b << 4, dest);
     return cnt;
 }
-int vgetc(void *src)
+static int vgetc(void *src)
 {
     return fgetc((FILE*)src);
 }
-int vputc(int ch, void *dest)
+static int vputc(int ch, void *dest)
 {
     return fputc(ch, (FILE*)dest);
 }
