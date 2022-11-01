@@ -1,4 +1,6 @@
 #include<stdio.h>
+#include<stdlib.h>
+const char dl_loader[] __attribute__((section(".interp"))) = "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2";
 size_t fromhexdec(void *src, void *dest, int(*gch)(void*), int(*pch)(int, void*))
 {
     size_t cnt = 0;
@@ -38,8 +40,8 @@ static int vputc(int ch, void *dest)
 {
     return fputc(ch, (FILE*)dest);
 }
-int main(int argl, char *argv[])
+void entry(void)
 {
     fromhexdec(stdin, stdout, &vgetc, &vputc);
-    return 0;
+    exit(0);
 }

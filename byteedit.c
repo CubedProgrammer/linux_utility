@@ -19,6 +19,7 @@ int maketmps(int fcnt, char *files[])
     unsigned rc = 24, cc = 80;
     unsigned outpos;
     struct winsize tsz;
+    struct stat fdat;
     succ = ioctl(STDIN_FILENO, TIOCGWINSZ, &tsz);
     if(succ == 0)
     {
@@ -26,15 +27,20 @@ int maketmps(int fcnt, char *files[])
         cc = tsz.ws_col;
         for(int i = 0; i < fcnt; ++i)
         {
-            sprintf(path, "%08x", (int) time(NULL));
-            strcpy(path + 8, files[i]);
+            strcpy(path, files[i]);
+            sprintf(path + strlen(path), "%08x", (int) time(NULL));
+            if(stat(files[i], &fdat) == -1)
+            {
+                perror("stat failed");
+                continue;
+            }
             fromfd = open(files[i], O_RDONLY);
             if(fromfd == -1)
             {
                 perror("opening file failed");
                 continue;
             }
-            tofd = open(path, O_WRONLY | O_CREAT, 0666);
+            tofd = open(path, O_WRONLY | O_CREAT, fdat.st_mode);
             if(tofd == -1)
             {
                 close(fromfd);
