@@ -57,25 +57,34 @@ int main(int argl, char *argv[])
         char cp[] = "cp";
         char sed[] = "sed";
         char *args[5] = {path, dest, NULL, NULL, NULL};
-        int exv = execute(cp, args);
-        if(exv == -1)
-            fprintf(stderr, "Command %s failed to execute.\n", cp);
+        int exv;
+        if(access(dest, F_OK))
+        {
+            exv = execute(cp, args);
+            if(exv == -1)
+                fprintf(stderr, "Command %s failed to execute.\n", cp);
+            else
+                succ = exv;
+            args[0] = sedi, args[1] = replace, args[2] = dest;
+            exv = execute(sed, args);
+            if(exv == -1)
+                fprintf(stderr, "Command %s failed to execute.\n", sed);
+            else
+               succ = exv;
+            memcpy(replace + 4, "TYPE", 4);
+            strcpy(replace + pathlen, argv[2]);
+            strcpy(replace + pathlen + extlen, "/g");
+            exv = execute(sed, args);
+            if(exv == -1)
+                fprintf(stderr, "Command %s failed to execute.\n", sed);
+            else
+                succ = exv;
+        }
         else
-            succ = exv;
-        args[0] = sedi, args[1] = replace, args[2] = dest;
-        exv = execute(sed, args);
-        if(exv == -1)
-            fprintf(stderr, "Command %s failed to execute.\n", sed);
-        else
-           succ = exv;
-        memcpy(replace + 4, "TYPE", 4);
-        strcpy(replace + pathlen, argv[2]);
-        strcpy(replace + pathlen + extlen, "/g");
-        exv = execute(sed, args);
-        if(exv == -1)
-            fprintf(stderr, "Command %s failed to execute.\n", sed);
-        else
-            succ = exv;
+        {
+            fprintf(stderr, "%s already exists.\n", dest);
+            succ = 1;
+        }
     }
     return succ;
 }
