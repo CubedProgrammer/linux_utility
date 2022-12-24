@@ -13,8 +13,10 @@ fromhexdec.c and tohexdec.c are meant to be compiled as shared libraries.
 
 tempc.c, temporary code, is for running code without manually creating a file and compiling.
 There should be a directory called .tempc in the home directory.
-The program runs the program specified by the enviornment variable EDITOR or vim is no such variable.
+The program runs the program specified by the enviornment variable EDITOR or vi is no such variable.
 After the editor exits, the program attempts to compile and run the file.
 The program looks for an executable file with exact same name as the first argument to the program.
 If found, the program will execute the file to compile and run the temporary program.
 The second argument is optional, and specifies the name of the temporary file, excluding the file extension.
+
+If the .ftemplates directory exits in the home directory, mft will be used to initialize the template code.

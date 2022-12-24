@@ -37,6 +37,9 @@ int main(int argl, char *argv[])
     else
     {
         char path[2048], dest[2048];
+        char *name = strrchr(argv[1], '/');
+        if(name == NULL)
+            name = argv[1];
         char *home = getenv("HOME");
         strcpy(path, home);
         size_t pathlen = strlen(path), extlen = strlen(argv[2]);
@@ -51,8 +54,8 @@ int main(int argl, char *argv[])
         char replace[2048];
         strcpy(replace, "s/__NAME__/");
         pathlen = 11;
-        strcpy(replace + pathlen, argv[1]);
-        strcpy(replace + pathlen + strlen(argv[1]), "/g");
+        strcpy(replace + pathlen, name);
+        strcpy(replace + pathlen + strlen(name), "/g");
         char sedi[] = "-i";
         char cp[] = "cp";
         char sed[] = "sed";

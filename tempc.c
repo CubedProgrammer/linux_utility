@@ -14,13 +14,17 @@ int main(int argl, char *argv[])
     snprintf(tmpdir, sizeof(tmpdir), fmt, (int)getuid());
     if(argl > 1)
     {
+        char mftpath[2601];
         int exitst;
         const char *fname = "main";
         char *env = getenv("HOME");
         char scriptpath[2601];
         strcpy(scriptpath, env);
         size_t len = strlen(scriptpath);
+        strcpy(mftpath, scriptpath);
         strcpy(scriptpath + len, "/.tempc/");
+        strcpy(mftpath + len, "/.ftemplates/.");
+        strcpy(mftpath + len + 14, argv[1]);
         len += 8;
         strcpy(scriptpath + len, argv[1]);
         if(access(tmpdir, F_OK))
@@ -33,6 +37,11 @@ int main(int argl, char *argv[])
             tmpdir[len] = '/';
             strcpy(tmpdir + len + 1, fname);
             len += strlen(fname) + 1;
+            if(access(mftpath, F_OK) == 0)
+            {
+                sprintf(cmd, "mft %s %s", tmpdir, argv[1]);
+                system(cmd);
+            }
             tmpdir[len] = '.';
             strcpy(tmpdir + len + 1, argv[1]);
             env = getenv("EDITOR");
@@ -44,6 +53,7 @@ int main(int argl, char *argv[])
             exitst = system(cmd);
             exitst = WEXITSTATUS(exitst);
             printf("Process exited with status %d.\n", exitst);
+            unlink(tmpdir);
         }
         else
         {
