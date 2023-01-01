@@ -63,7 +63,11 @@ void display_trie(const struct trie *trie, const char *prefix)
                 str[len] = '\0';
                 ls[len] = ls[len - 1]->children[str[len - 1]];
                 if(ls[len]->children[0] != NULL)
+                {
+                    if(prefix != NULL)
+                        fputs(prefix, stdout);
                     puts((char*)str);
+                }
                 ++str[len];
                 ++len;
             }
@@ -111,7 +115,7 @@ int main(int argl, char *argv[])
             {
                 exename = en->d_name;
                 strcpy(exepath + len + 1, exename);
-                if(en->d_type == DT_REG && access(exepath, X_OK) == 0)
+                if(en->d_type == DT_LNK || en->d_type == DT_REG && access(exepath, X_OK) == 0)
                 {
                     if(insert_cmd(&trie, exename) == -1)
                     {
