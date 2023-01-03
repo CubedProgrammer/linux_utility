@@ -40,6 +40,8 @@ int main(int argl, char *argv[])
         char *name = strrchr(argv[1], '/');
         if(name == NULL)
             name = argv[1];
+        else
+            ++name;
         char *home = getenv("HOME");
         strcpy(path, home);
         size_t pathlen = strlen(path), extlen = strlen(argv[2]);
