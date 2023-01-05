@@ -1,39 +1,25 @@
-#include<dirent.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<sys/stat.h>
+#include<unistd.h>
 const char *search[30] = {"/usr/include", "/usr/local/include", NULL};
 char findinc(char *restrict buf, const char *name, char plusplus)
 {
-    DIR *dh;
-    struct dirent *en;
     unsigned len;
+    struct stat fdat;
     char *fname, succ = 0;
     for(const char **dir = search; succ == 0 && *dir != NULL; ++dir)
     {
-        dh = opendir(*dir);
-        if(dh == NULL)
+        len = strlen(*dir);
+        memcpy(buf, *dir, len);
+        buf[len] = '/';
+        strcpy(buf + len + 1, name);
+        if(access(buf, F_OK) == 0)
         {
-            fprintf(stderr, "Directory %s", *dir);
-            perror(" could not be opened");
-        }
-        else
-        {
-            for(en = readdir(dh); succ == 0 && en != NULL; en = readdir(dh))
-            {
-                fname = en->d_name;
-                if(strcmp(fname, name) == 0)
-                {
-                    strcpy(buf, *dir);
-                    len = strlen(buf);
-                    buf[len] = '/';
-                    strcpy(buf + len + 1, fname);
-                    succ = 1;
-                    puts(fname);
-                }
-            }
-            closedir(dh);
+            stat(buf, &fdat);
+            puts(buf);
+            succ = S_ISREG(fdat.st_mode) != 0;
         }
     }
     return succ;
@@ -65,7 +51,7 @@ void searchf(const char *fname, char pp)
     const char *nxt, *endl;
     const char *incdir = "#include";
     char incf[91], path[2601];
-    char space[16];
+    char endch, space[16];
     char *fcarr[16];
     const char *nxtarr[16];
     size_t tmplen, pathnxt, fszarr[16];
@@ -85,11 +71,25 @@ void searchf(const char *fname, char pp)
         }
         else
         {
+            if(nxt[-1] != '\n')
+            {
+                nxtarr[fcnt - 1] = nxt + 8;
+                continue;
+            }
             for(nxt += 8; *nxt == ' '; ++nxt);
-            for(endl = nxt; *endl != '\n'; ++endl);
-            memcpy(incf, nxt + 1, endl - nxt - 2);
-            incf[endl - nxt - 2] = '\0';
-            nxtarr[fcnt - 1] = endl;
+            if(*nxt == 60)
+                endch = 62;
+            else if(*nxt == '"')
+                endch = '"';
+            else
+            {
+                nxtarr[fcnt - 1] = nxt + 1;
+                continue;
+            }
+            for(endl = nxt; *endl != endch; ++endl);
+            memcpy(incf, nxt + 1, endl - nxt - 1);
+            incf[endl - nxt - 1] = '\0';
+            nxtarr[fcnt - 1] = endl + 1;
             fwrite(space, 1, fcnt, stdout);
             if(findinc(path + pathnxt + 1, incf, pp))
             {
