@@ -40,7 +40,7 @@ void findscrt(char *buf)
                         if(en->d_name[0] == '.' && (en->d_name[1] == '\0' || en->d_name[1] == '.'))
                             continue;
                         strcpy(buf, "/etc/ld.so.conf.d/");
-                        strcpy(buf + 19, en->d_name);
+                        strcpy(buf + 18, en->d_name);
                         fh = fopen(buf, "r");
                         if(fh == NULL)
                             perror("fopen failed");
@@ -62,6 +62,10 @@ void findscrt(char *buf)
                 }
             }
         }
+        if(keep)
+            printf("%s was found, please set it as value of SCRT environment variable.\n", buf);
+        else
+            puts("Scrt1.o was not found, your program may not run as expected.");
     }
 }
 int main(int argl, char *argv[])

@@ -25,7 +25,7 @@ If the .ftemplates directory exits in the home directory, mft will be used to in
 pidx.c, process identifier execute, prints the process ID before exec(3)uting the program.
 $1, or the second command line argument (first not counting program name), is the program to be executed, and all arguments following are arguments to that program.
 
-cxso.c, c executable shared object, createds a shared library that is also an executable file.
+cxso.c, c executable shared object, createds a file that is both a shared library and an executable program.
 If the second argument is ++, C++ is assumed to be the language.
 SCRT environment variable will be used to determine the location of Scrt1.o, for calling main function.
 If it is not set, then directories in ld.so.conf will be searched.
