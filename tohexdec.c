@@ -31,8 +31,8 @@ static int vputc(int ch, void *dest)
 {
     return fputc(ch, (FILE*)dest);
 }
-void entry(void)
+int main(int argl, char *argv[])
 {
     tohexdec(stdin, stdout, &vgetc, &vputc);
-    exit(0);
+    return 0;
 }

@@ -56,6 +56,7 @@ void searchf(const char *fname, char pp)
     const char *nxtarr[16];
     size_t tmplen, pathnxt, fszarr[16];
     unsigned fcnt = 1;
+    puts(fname);
     nxtarr[0] = fcarr[0] = rdfile(fname, fszarr);
     memset(space, ' ', sizeof space);
     strcpy(path, fname);
@@ -108,11 +109,22 @@ int main(int argl, char *argv[])
 {
     int succ = 0;
     char pp = 0;
+    unsigned dircnt = 2;
     if(argv[1] == NULL)
         puts("Specify a file name.");
     else
     {
-        searchf(argv[1], pp);
+        pp = argv[1][0] == '+' && argv[1][1] == '+' && argv[1][2] == '\0';
+        for(argv += pp + 1; *argv != NULL; ++argv)
+        {
+            if(argv[0][0] == '-')
+            {
+                if(argv[0][1] == 'I')
+                    search[dircnt++] = argv[0] + 2;
+            }
+            else
+                searchf(*argv, pp);
+        }
     }
     return succ;
 }
