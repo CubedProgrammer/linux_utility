@@ -42,6 +42,20 @@ static int vputc(int ch, void *dest)
 }
 int main(int argl, char *argv[])
 {
+    FILE *i = stdin, *o = stdout;
+    if(argl > 1)
+    {
+        if(argv[1][0] != '-' && argv[1][1] != '\0')
+            i = fopen(argv[1], "r");
+        if(argl > 2)
+        {
+            ++argv;
+            if(argv[1][0] != '-' && argv[1][1] != '\0')
+                o = fopen(argv[1], "w");
+        }
+    }
     fromhexdec(stdin, stdout, &vgetc, &vputc);
+    fclose(o);
+    fclose(i);
     return 0;
 }

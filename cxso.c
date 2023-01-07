@@ -24,7 +24,7 @@ void findscrt(char *buf)
             else
             {
                 FILE *fh = fopen("/etc/ld.so.conf", "r");
-                while(keep && scanf("%s", buf) == 1)
+                while(keep && fscanf(fh, "%s", buf) == 1)
                 {
                     len = strlen(buf);
                     buf[len] = '/';
@@ -37,6 +37,8 @@ void findscrt(char *buf)
                     DIR *dh = opendir("/etc/ld.so.conf.d");
                     for(struct dirent *en = readdir(dh); keep && en != NULL; en = readdir(dh))
                     {
+                        if(en->d_name[0] == '.' && (en->d_name[1] == '\0' || en->d_name[1] == '.'))
+                            continue;
                         strcpy(buf, "/etc/ld.so.conf.d/");
                         strcpy(buf + 19, en->d_name);
                         fh = fopen(buf, "r");
@@ -44,7 +46,7 @@ void findscrt(char *buf)
                             perror("fopen failed");
                         else
                         {
-                            while(keep && scanf("%s", buf) == 1)
+                            while(keep && fscanf(fh, "%s", buf) == 1)
                             {
                                 len = strlen(buf);
                                 buf[len] = '/';
