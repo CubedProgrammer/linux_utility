@@ -3,6 +3,12 @@ Command line utilities made for linux, and in theory, also for other POSIX-compl
 ## Compilation
 Most files are built individually.
 
+### byteedit
+Edit bytes of a file, bytes will be shown in hexadecimal.
+Uses environmental variable EDITOR to determine editor, defaulting to vi if it does not exist.
+After editor is closed, converts the saved text from hexadecimal text into raw binary data.
+Any character that is not 0-9, A-Z, a-z will be ignored.
+
 ### char
 Character, converts numbers into characters based on unicode value.
 Each argument is a byte, given in decimal.
@@ -179,6 +185,12 @@ First argument is file to read from, second is file to write to.
 If any argument is -, then it uses stdin or stdout.
 
 Uses stdin and stdout if no arguments are present.
+
+### tpcsv
+Transpose Comma Separated Values
+Reads CSV files, and transposes the matrix, and writes back into the CSV file.
+
+Entries cannot have commas, there are no options to escape them.
 
 ### ttylog
 Teletype log, logs data displayed by a virtual terminal.

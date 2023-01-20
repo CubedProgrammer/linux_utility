@@ -93,7 +93,7 @@ int maketmps(int fcnt, char *files[])
     char path[2601];
     unsigned char inbuf[16384];
     char outbuf[16384];
-    ssize_t bc;
+    ssize_t bc, bo;
     unsigned rc = 24, cc = 80;
     unsigned outpos;
     struct winsize tsz;
@@ -127,7 +127,7 @@ int maketmps(int fcnt, char *files[])
             }
             cc -= cc % 3;
             bc = sizeof inbuf;
-            outpos = 0;
+            bo = outpos = 0;
             while(bc == sizeof(inbuf))
             {
                 bc = read(fromfd, inbuf, sizeof inbuf);
@@ -138,8 +138,9 @@ int maketmps(int fcnt, char *files[])
                     for(unsigned i = 0; i < bc; ++i)
                     {
                         sprintf(outbuf + outpos, "%02X", inbuf[i]);
-                        outbuf[outpos + 2] = outpos % (cc - 9) == 0 ? '\n' : ' ';
+                        outbuf[outpos + 2] = bo % (cc - 3) == cc - 6 ? '\n' : ' ';
                         outpos += 3;
+                        bo += 3;
                         if(outpos == 16383)
                         {
                             write(tofd, outbuf, outpos);
