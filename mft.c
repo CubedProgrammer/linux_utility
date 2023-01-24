@@ -9,8 +9,7 @@ int execute(char *program, char *const*args)
     int pid = fork();
     if(pid == 0)
     {
-        char *rargs[6];
-        *rargs = program;
+        char *rargs[6] = {program, NULL, NULL, NULL, NULL, NULL};
         for(char *const*it = args, **destit = rargs + 1; *it; *destit++ = *it++);
         execvp(program, rargs);
         exit(1);

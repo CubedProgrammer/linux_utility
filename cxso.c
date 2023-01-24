@@ -8,7 +8,7 @@ void findscrt(char *buf)
     const char *scrtname = "Scrt1.o";
     char *env = getenv("SCRT");
     unsigned len;
-    char keep = 1;
+    char keep = 0;
     if(env != NULL)
         strcpy(buf, env);
     else
@@ -24,6 +24,7 @@ void findscrt(char *buf)
             else
             {
                 FILE *fh = fopen("/etc/ld.so.conf", "r");
+                keep = 1;
                 while(keep && fscanf(fh, "%s", buf) == 1)
                 {
                     len = strlen(buf);
@@ -57,15 +58,15 @@ void findscrt(char *buf)
                         }
                     }
                     closedir(dh);
-                    if(!keep)
+                    if(keep)
                         strcpy(buf, "-Wl,-e,main");
                 }
             }
         }
         if(keep)
-            printf("%s was found, please set it as value of SCRT environment variable.\n", buf);
-        else
             puts("Scrt1.o was not found, your program may not run as expected.");
+        else
+            printf("%s was found, please set it as value of SCRT environment variable.\n", buf);
     }
 }
 int main(int argl, char *argv[])

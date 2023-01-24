@@ -3,22 +3,59 @@ Command line utilities made for linux, and in theory, also for other POSIX-compl
 ## Compilation
 Most files are built individually.
 
+## Utilities
+byteedit
+char
+clock
+cxso
+floattoy
+fromfloat
+fromhexdec
+lnc++
+lnc
+lscmd
+lsinc
+mft
+pause
+pidx
+preturn
+return
+reverse
+runc++
+runc
+separate
+sharg
+tempc
+tofloat
+tohexdec
+tpcsv
+ttylog
+unic
+zero
+
 ### byteedit
 Edit bytes of a file, bytes will be shown in hexadecimal.
 Uses environmental variable EDITOR to determine editor, defaulting to vi if it does not exist.
 After editor is closed, converts the saved text from hexadecimal text into raw binary data.
 Any character that is not 0-9, A-Z, a-z will be ignored.
-
+```
+byteedit a.txt b.img c.c
+```
+Opens the editor for the three files a.txt, b.img, and c.c.
 ### char
 Character, converts numbers into characters based on unicode value.
 Each argument is a byte, given in decimal.
-
+```
+char 33 34
+```
+Prints `!"` to the console.
 ### clock
 A clock that uses the command-line interface.
 
 Shows a twenty-four hour clock, with seconds.
 Exits automatically when typing next command for the shell.
 
+No command line arguments.
 ### cxso
 C Executable Shared Object, createds a file that is both a shared library and an executable program.
 
@@ -26,9 +63,47 @@ If the first argument is ++, C++ is assumed to be the language.
 
 SCRT environment variable will be used to determine the location of Scrt1.o, for calling main function.
 If it is not set, then directories in ld.so.conf will be searched.
+This file is responsible for calling the main function.
 If it is still not found, main will be set to the program entry point instead.
 This could mean a lot of C language features break, so try to ensure Scrt1.o is found.
 
+heron.c
+```c
+#include<math.h>
+#include<stdio.h>
+#include<stdlib.h>
+// Might be different path on your computer, but will be named ld-linux-*.so.2
+const char dl_loader[]__attribute__((section(".interp"))) = "/usr/lib64/ld-linux-x86-64.so.2";
+float heron(float a, float b, float c)
+{
+    float s = (a + b + c) * 0.5;
+    return sqrt(s * (s - a) * (s - b) * (s - c));
+}
+int main(int argl, char *argv[])
+{
+    float num = atof(argv[1]);
+    printf("%f\n", heron(num, num, num));
+    return 0;
+}
+```
+program.c
+```c
+#include<stdio.h>
+#include<stdlib.h>
+float heron(float a, float b, float c);
+int main(int argl, char *argv[])
+{
+    printf("%f\n", heron(atof(argv[1]), atof(argv[2]), atof(argv[3])));
+    return 0;
+}
+```
+Compile both files, replace clang with gcc if preferred.
+```
+clang -O3 -c program.c
+clang -O3 -c heron.c -fPIC
+cxso -o libheron.so heron.o -lm
+clang -o program.out program.o -L. -lheron
+```
 ### floattoy
 Play with a single precision IEEE-754 floating-point number.
 
@@ -49,7 +124,9 @@ The exponent and mantissa bits are in different colours.
 ### fromfloat
 Shows the bytes of a single-precision IEEE-754 floating-point number.
 All arguments are numbers, their bits will be printed, one number per line.
-
+```
+fromfloat 3.14159265 2.71828184
+```
 ### fromhexdec
 Reads hexadecimal numbers and prints every byte as a character.
 
@@ -68,10 +145,16 @@ If the object file is main.o, then main should be the first argument.
 The executable file produced is ${1}.out, if first argument is main, then main.out.
 
 All other arguments are passed to directly to the C compiler.
-
+```
+lnc program
+```
+Linkes program.o using the C compiler into program.out.
 ### lnc++
 Link c++, same as lnc, but uses COMPILERPP variable for C++ compiler.
-
+```
+lnc++ program
+```
+Linkes program.o using the C++ compiler into program.out.
 ### lscmd
 List commands, lists available programs based on PATH variable.
 
@@ -80,7 +163,10 @@ If two programs has the same file name but in different directories, it is only 
 Only lists file name if the file is a regular file with execute permission or a symbolic link.
 
 The first argument is the prefix, if present, program only lists commands with that prefix.
-
+```
+lscmd ssh
+```
+Lists all commands beginning with ssh.
 ### lsinc
 List includes, lists the files included by a C or C++ source file.
 
@@ -91,7 +177,9 @@ Each file listed will have preceeding spaces based on the inclusion depth.
 
 A file directly included in a searched file will have one preceding space.
 A file included by a file directly included will have two, so on and so forth.
-
+```
+lsinc program.c
+```
 ### mft
 Make from template.
 Formerly mf.c, make file, requires a directory in home directory called .ftemplates.
@@ -102,7 +190,10 @@ The second argument to the program is the text after the dot in the file name of
 \_\_TYPE\_\_ will be replaced with the second argument of the program.
 
 So, use them as placeholders for where the name or type of the program should go in the newly created file.
-
+```
+mft program c
+```
+Will copy ~/.ftemplates/.c to program.c and do the replacements accordingly.
 ### pause
 Waits a certain amount of time or for a key press.
 
@@ -110,29 +201,48 @@ The program waits for an input from stdin, in non-canonical mode, then exits.
 Thus, pressing any key will terminate the program.
 
 If the first argument is present, it will determine the number of milliseconds to pause instead.
-
+```
+pause 750
+```
+Does nothing for 750 milliseconds and then exits.
 ### pidx
 Process Identifier Execute, prints the process ID before exec(3)uting the program.
 
 $1, or the first command line argument (first not counting program name), is the program to be executed, and all arguments following are arguments to that program.
-
+```
+pidx git
+```
+Prints the process identifier of git, before running the program git.
 ### preturn
 Print Return, executes a program and prints exit status of the process.
 
 First arguemnt is radix, b for binary, d for decimal, x for hexadecimal.
 The remaining arguments are the program to run and its arguments.
-
-### Return
+```
+preturn x return 91
+```
+Prints 9.
+### return
 Program exits with specified exit status.
 
 The first argument is the exit status, it is assumed to be in decimal.
 However, prefixes 0b can be used for binary, 0 for octal, and 0x hexadecimal.
-
-### Reverse
+```
+return 0x5b
+```
+Exits with status 91.
+### reverse
 Reverses the characters of its arguments.
 
 All arguments are printed, one on each line, but with the characters in reverse order.
-
+```
+reverse racecar abcde
+```
+Prints
+```
+racecar
+edcba
+```
 ### runc
 Runs C code, for tempc.
 
@@ -145,17 +255,24 @@ Uses value of COMPILERPP environment variable as C++ compiler, or c++ if not fou
 
 ### separate
 Runs a program and detaches the process from terminal.
+Also redirects all standard streams to null device.
 
 If compiled with QUIET macro defined, does not print the process ID.
 Otherwise, shows process ID of launched process.
-
+```
+separate git push
+```
+Runs git push detached, prints out the process identifier.
 ### sharg
 Show arguments, prints all command line arguments.
 
 Displays all command line arguments, each preceding with its position.
 This is to clearly display multi-line arguments.
 This can be useful when command line arguments are shell expansions.
-
+```sh
+sharg ~ ${SHELL:1:3}
+```
+Displays home directory and a substring of the SHELL variable, on the shell.
 ### tempc
 Temporary code, is for running code without manually creating a file and compiling.
 
@@ -171,13 +288,18 @@ That program shall run the temporary program and exit after the process exits wi
 The second argument is optional, and specifies the name of the temporary file, excluding the file extension.
 
 If the .ftemplates directory exits in the home directory, mft will be used to initialize the template code.
-
+```
+tempc c prog
+```
+Creates a temporary program prog.c, opens editor, compiles and runs it after closing editor.
 ### tofloat
 Shows decimal value of the bytes of a single-precision IEEE-754 floating-point number.
 
 Each argument is the bits of a single number.
 If an argument has prefix 0x, it is assumed to be in hexadecimal, binary otherwise.
-
+```
+tofloat 0b01000000010010010000111111011011 0b01000000001011011111100001010100
+```
 ### tohexdec
 Reads characters and prints their unicode values in hexadecimal.
 
@@ -202,9 +324,15 @@ If the first argument is present, it shall be used as the log file, otherwise, t
 Unicode, displays the unicode values of characters.
 
 Each argument has its values printed on a new line, in hexadecimal.
-
+```
+unic abc
+```
+Prints 616263, the hexadecimal values of abc.
 ### zero
 Fills a file with zeros.
 
 File size may be expanded, all bytes are overwritten with zero.
 Each argument is a file to clear with zeros.
+```
+zero file.txt
+```
