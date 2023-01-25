@@ -13,6 +13,7 @@ fromfloat
 fromhexdec
 lnc++
 lnc
+loin
 lscmd
 lsinc
 mft
@@ -155,6 +156,14 @@ Link c++, same as lnc, but uses COMPILERPP variable for C++ compiler.
 lnc++ program
 ```
 Linkes program.o using the C++ compiler into program.out.
+### loin
+Local install, installs a program or shared library locally to /usr/local/bin or /usr/local/lib.
+
+All command line arguments are programs or shared libraries to install.
+```
+loin code/program.out code/libshared.so
+```
+Copies code/program.out to /usr/local/bin/program and code/libshared.so to /usr/local/lib/libshared.so
 ### lscmd
 List commands, lists available programs based on PATH variable.
 
