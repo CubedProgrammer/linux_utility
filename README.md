@@ -4,35 +4,35 @@ Command line utilities made for linux, and in theory, also for other POSIX-compl
 Most files are built individually.
 
 ## Utilities
-byteedit
-char
-clock
-cxso
-floattoy
-fromfloat
-fromhexdec
-lnc++
-lnc
-loin
-lscmd
-lsinc
-mft
-pause
-pidx
-preturn
-return
-reverse
-runc++
-runc
-separate
-sharg
-tempc
-tofloat
-tohexdec
-tpcsv
-ttylog
-unic
-zero
+[byteedit](#byteedit)
+[char](#char)
+[clock](#clock)
+[cxso](#cxso)
+[floattoy](#floattoy)
+[fromfloat](#fromfloat)
+[fromhexdec](#fromhexdec)
+[lnc](#lnc)
+[lnc++](#lnc++)
+[loin](#loin)
+[lscmd](#lscmd)
+[lsinc](#lsinc)
+[mft](#mft)
+[pause](#pause)
+[pidx](#pidx)
+[preturn](#preturn)
+[return](#return)
+[reverse](#reverse)
+[runc](#runc)
+[runc++](#runc++)
+[separate](#separate)
+[sharg](#sharg)
+[tempc](#tempc)
+[tofloat](#tofloat)
+[tohexdec](#tohexdec)
+[tpcsv](#tpcsv)
+[ttylog](#ttylog)
+[unic](#unic)
+[zero](#zero)
 
 ### byteedit
 Edit bytes of a file, bytes will be shown in hexadecimal.
@@ -135,7 +135,12 @@ First argument is file to read from, second is file to write to.
 If any argument is -, then it uses stdin or stdout.
 
 Uses stdin and stdout if no arguments are present.
+```
+fromhexdec a.txt b.txt
+```
+If a.txt has 696a6b, b.txt will contain ijk.
 
+Can be compiled into a shared library that is also an executable, see [cxso](#cxso)
 ### lnc
 Link C, links an object file using a C compiler.
 
@@ -253,12 +258,12 @@ racecar
 edcba
 ```
 ### runc
-Runs C code, for tempc.
+Runs C code, for [tempc](#tempc).
 
 Uses value of COMPILER environment variable as C compiler, or cc if not found.
 
 ### runc++
-Runs C++ code, for tempc.
+Runs C++ code, for [tempc](#tempc).
 
 Uses value of COMPILERPP environment variable as C++ compiler, or c++ if not found.
 
@@ -316,7 +321,12 @@ First argument is file to read from, second is file to write to.
 If any argument is -, then it uses stdin or stdout.
 
 Uses stdin and stdout if no arguments are present.
+```
+tohexdec a.txt b.txt
+```
+If a.txt has ijk, b.txt will contain 696a6b.
 
+Can be compiled into a shared library that is also an executable, see [cxso](#cxso)
 ### tpcsv
 Transpose Comma Separated Values
 Reads CSV files, and transposes the matrix, and writes back into the CSV file.
