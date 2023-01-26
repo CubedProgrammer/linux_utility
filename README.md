@@ -3,6 +3,22 @@ Command line utilities made for linux, and in theory, also for other POSIX-compl
 ## Compilation
 Most files are built individually.
 
+Quick compilation script, replace clang with gcc if preferred.
+```sh
+clang -std=c99 -O3 -c byteedit.c char.c cxso.c floattoy.c fromfloat.c fromhexdec.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -O3 -c clock.c lscmd.c pause.c
+clang -o lnc.out lnc.o
+rm lnc.o
+for i in *.o; do i=${i::-2}; ./lnc.out $i; done
+rm *.o
+```
+Installation, may require root privilages.
+```sh
+./loin.out ./loin.out
+rm loin.out
+for i in *.out; loin $i; done
+rm *.out
+```
 ## Utilities
 [byteedit](#byteedit)
 [char](#char)
