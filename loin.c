@@ -1,4 +1,5 @@
 #include<fcntl.h>
+#include<errno.h>
 #include<stdio.h>
 #include<string.h>
 #include<unistd.h>
@@ -68,7 +69,9 @@ int install(const char *arg)
         if(fd == -1)
         {
             fprintf(stderr, "File %s", dest);
-            perror(" could not be opened");
+            perror(" could not be created");
+            if(errno == EACCES)
+                fputs("Try running as superuser instead.\n", stderr);
             succ = 1;
         }
         else
@@ -76,6 +79,8 @@ int install(const char *arg)
             size_t bc, sz = sizeof buf;
             for(bc = fread(buf, 1, sz, fh); bc == sz; bc = fread(buf, 1, sz, fh))
                 write(fd, buf, sz);
+            if(bc)
+                write(fd, buf, bc);
             close(fd);
         }
         fclose(fh);
