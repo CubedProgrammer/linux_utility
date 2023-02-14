@@ -1,6 +1,7 @@
 #include<stdio.h>
-#include<stdlib.h>
+#include<string.h>
 #include<termios.h>
+#include<time.h>
 #include<unistd.h>
 int main(int argl, char *argv[])
 {
@@ -20,6 +21,22 @@ int main(int argl, char *argv[])
         fputc('\n', stdout);
     }
     else
-        usleep(atoi(argv[1]) * 1000);
+    {
+        long n = 0;
+        struct timespec tm;
+        const char *it;
+        for(it = argv[1]; *it >= '0' && *it <= '9'; ++it)
+            n = n * 10 + *it - '0';
+        n *= 1000000000;
+        if(strcmp(it, "ms") == 0)
+            n /= 1000;
+        else if(strcmp(it, "us") == 0)
+            n /= 1000000;
+        else if(strcmp(it, "ns") == 0)
+            n /= 1000000000;
+        tm.tv_sec = n / 1000000000;
+        tm.tv_nsec = n % 1000000000;
+        nanosleep(&tm, NULL);
+    }
     return 0;
 }

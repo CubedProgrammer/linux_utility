@@ -230,9 +230,10 @@ Waits a certain amount of time or for a key press.
 The program waits for an input from stdin, in non-canonical mode, then exits.
 Thus, pressing any key will terminate the program.
 
-If the first argument is present, it will determine the number of milliseconds to pause instead.
+If the first argument is present, it will determine the number of seconds to pause instead.
+Suffixes ms, us, and ns change the units to millisecond, microsecond, and nanosecond instead.
 ```
-pause 750
+pause 750ms
 ```
 Does nothing for 750 milliseconds and then exits.
 ### pidx
