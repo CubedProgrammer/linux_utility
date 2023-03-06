@@ -61,9 +61,9 @@ byteedit a.txt b.img c.c
 Opens the editor for the three files a.txt, b.img, and c.c.
 ### char
 Character, converts numbers into characters based on unicode value.
-Each argument is a byte, given in decimal.
+Each argument is a byte, given in hexadecimal.
 ```
-char 33 34
+char 21 22
 ```
 Prints `!"` to the console.
 ### clock

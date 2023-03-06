@@ -24,6 +24,7 @@ int main(int argl, char *argv[])
         succ = 1;
         ec = errno;
         write(p[1], &ec, sizeof ec);
+        close(p[1]);
     }
     else if(pid == -1)
     {
@@ -35,6 +36,7 @@ int main(int argl, char *argv[])
         close(p[1]);
         close(nullfd);
         long cnt = read(p[0], &ec, sizeof ec);
+        close(p[0]);
         if(cnt > 0)
         {
             errno = ec;
