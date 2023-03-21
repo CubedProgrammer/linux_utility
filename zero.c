@@ -32,6 +32,8 @@ int main(int argl, char *argv[])
                 {
                     fsz = fdat.st_size;
                     cnt = 0;
+                    fwrite(zero, 1, fsz & sizeof(zero) - 1, fh);
+                    fsz &= -sizeof(zero);
                     while(cnt < fsz)
                         cnt += fwrite(zero, 1, sizeof(zero), fh);
                     fclose(fh);
