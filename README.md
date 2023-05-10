@@ -27,14 +27,15 @@ rm *.out
 [floattoy](#floattoy)
 [fromfloat](#fromfloat)
 [fromhexdec](#fromhexdec)
-[jhash][#jhash]
-[jhashrev][#jhashrev]
+[jhash](#jhash)
+[jhashrev](#jhashrev)
 [lnc](#lnc)
 [lnc++](#lnc++)
 [loin](#loin)
 [lscmd](#lscmd)
 [lsinc](#lsinc)
 [mft](#mft)
+[parg](#parg)
 [pause](#pause)
 [pidx](#pidx)
 [preturn](#preturn)
@@ -238,6 +239,12 @@ So, use them as placeholders for where the name or type of the program should go
 mft program c
 ```
 Will copy ~/.ftemplates/.c to program.c and do the replacements accordingly.
+### parg
+Displays the command line arguments of the specified process.
+```
+parg 1729
+```
+Should display the command line arguments of process with identifier of 1729.
 ### pause
 Waits a certain amount of time or for a key press.
 
