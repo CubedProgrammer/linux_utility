@@ -22,6 +22,7 @@ rm *.out
 ## Utilities
 [byteedit](#byteedit)
 [char](#char)
+[chmap](#chmap)
 [clock](#clock)
 [cxso](#cxso)
 [floattoy](#floattoy)
@@ -69,6 +70,14 @@ Each argument is a byte, given in hexadecimal.
 char 21 22
 ```
 Prints `!"` to the console.
+### chmap
+A character map.
+
+Using up and down arrows to move by one row, page up and page down to move by 256.
+
+Exit using the escape key.
+
+Requires the terminal to be at least sixteen by sixteen.
 ### clock
 A clock that uses the command-line interface.
 
