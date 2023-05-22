@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c byteedit.c char.c chmap.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -24,6 +24,7 @@ rm *.out
 [char](#char)
 [chmap](#chmap)
 [clock](#clock)
+[cpick](#cpick)
 [cxso](#cxso)
 [floattoy](#floattoy)
 [fromfloat](#fromfloat)
@@ -86,6 +87,13 @@ Shows a twenty-four hour clock, with seconds.
 Exits automatically when typing next command for the shell.
 
 No command line arguments.
+### cpick
+Colour picking tool.
+
+Press lowercase r, g, or b to change the red, green, or blue by one.
+Use uppercase to change by sixteen.
+
+Press X to reverse direction, default is to increase.
 ### cxso
 C Executable Shared Object, createds a file that is both a shared library and an executable program.
 
