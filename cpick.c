@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<termios.h>
 #include<unistd.h>
 void show(int colour)
@@ -11,6 +12,8 @@ int main(int argl, char *argv[])
     struct termios old, curr;
     int colour = 0;
     int direction = 1;
+    if(argl > 1)
+        colour = strtoul(argv[1], NULL, 16);
     tcgetattr(STDIN_FILENO, &old);
     curr = old;
     curr.c_lflag &= ~(ECHO | ICANON);
@@ -20,6 +23,12 @@ int main(int argl, char *argv[])
     {
         switch(ch)
         {
+            case'0':
+                colour = 0;
+                break;
+            case'1':
+                colour = 0xffffff;
+                break;
             case'r':
                 colour = colour & 0xffff | colour + (direction << 16) & 0xff0000;
                 break;
