@@ -364,10 +364,13 @@ There should be a directory called .tempc in the home directory.
 The program runs the program specified by the enviornment variable EDITOR or vi is no such variable.
 After the editor exits, the program attempts to compile and run the file.
 
-The program looks for an executable file with exact same name as the first argument to the program.
+The program looks for an executable file with exact same name as the first argument to the program, inside .tempc.
 If found, the program will execute the file to compile and run the temporary program.
 That program will take in the path to the temporary source code as the first argument.
 That program shall run the temporary program and exit after the process exits with same exit status.
+
+For example, to run C programs, one would need a script at .tempc/c, this script should compile and run the file.
+It will be executed like this `~/.tempc/c temporary.c`, so write the script accordingly.
 
 The second argument is optional, and specifies the name of the temporary file, excluding the file extension.
 

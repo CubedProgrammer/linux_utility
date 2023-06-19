@@ -10,7 +10,7 @@ int main(int argl, char *argv[])
     int succ = 0;
     char fmt[] = "/tmp/tempc%d";
     char tmpdir[2601];
-    char cmd[2601];
+    char cmd[2601], runcmd[2601];
     snprintf(tmpdir, sizeof(tmpdir), fmt, (int)getuid());
     if(argl > 1)
     {
@@ -19,6 +19,9 @@ int main(int argl, char *argv[])
         const char *fname = "main";
         char *env = getenv("HOME");
         char scriptpath[2601];
+        char conttext[13];
+        char contin;
+        char cont = 1;
         strcpy(scriptpath, env);
         size_t len = strlen(scriptpath);
         strcpy(mftpath, scriptpath);
@@ -29,6 +32,8 @@ int main(int argl, char *argv[])
         strcpy(scriptpath + len, argv[1]);
         if(access(tmpdir, F_OK))
             succ = mkdir(tmpdir, 0755);
+        if(access(scriptpath, F_OK))
+            succ = 13;
         if(succ == 0)
         {
             if(argl > 2)
@@ -48,13 +53,24 @@ int main(int argl, char *argv[])
             if(env == NULL)
                 env = "vi";
             sprintf(cmd, "%s %s", env, tmpdir);
-            system(cmd);
-            sprintf(cmd, "%s %s", scriptpath, tmpdir);
-            exitst = system(cmd);
-            exitst = WEXITSTATUS(exitst);
-            printf("Process exited with status %d.\n", exitst);
+            sprintf(runcmd, "%s %s", scriptpath, tmpdir);
+            while(cont)
+            {
+                system(cmd);
+                exitst = system(runcmd);
+                exitst = WEXITSTATUS(exitst);
+                printf("Process exited with status %d.\n", exitst);
+                fputs("Continue editing? [y]/n", stdout);
+                contin = getchar();
+                if(contin != '\n')
+                    while(getchar() != '\n');
+                if(contin == 'n' || contin == 'N')
+                    cont = 0;
+            }
             unlink(tmpdir);
         }
+        else if(succ == 13)
+            fprintf(stderr, "Runtime for %s unknown, create a script with path %s.\n", argv[1], scriptpath);
         else
         {
             fprintf(stderr, "Opening %s", tmpdir);
