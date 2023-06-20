@@ -58,12 +58,17 @@ int install(const char *arg)
             strcpy(dest + 15, arg);
         else
         {
-            for(--ptr; *ptr != '.'; --ptr);
-            memcpy(dest + 15, arg, ptr - arg);
+            for(--ptr; ptr != arg && *ptr != '.'; --ptr);
+            if(ptr == arg)
+                strcpy(dest + 15, arg);
+            else
+            {
+                memcpy(dest + 15, arg, ptr - arg);
+                dest[ptr - arg + 15] = '\0';
+            }
             dest[11] = 'b';
             dest[12] = 'i';
             dest[13] = 'n';
-            dest[ptr - arg + 15] = '\0';
         }
         fd = open(dest, O_WRONLY | O_CREAT | O_TRUNC, 0755);
         if(fd == -1)
