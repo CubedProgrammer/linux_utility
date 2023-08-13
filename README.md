@@ -48,6 +48,8 @@ rm *.out
 [runc++](#runc++)
 [separate](#separate)
 [sharg](#sharg)
+[sshdl](#sshdl)
+[sshul](#sslul)
 [tempc](#tempc)
 [tofloat](#tofloat)
 [tohexdec](#tohexdec)
@@ -357,6 +359,32 @@ This can be useful when command line arguments are shell expansions.
 sharg ~ ${SHELL:1:3}
 ```
 Displays home directory and a substring of the SHELL variable, on the shell.
+### sshdl
+If the environment varible `REMOTE_LOCATION` is set, use it as the directory to download to.
+If there is a file called .remoteloc in the present working directory, then it is used as the source directory.
+The local file overrides the environment variable if both are present.
+
+The scp command is used for downloading, ensure it is available.
+
+Note that the shell is used to run the command, beware of shell expansions in your file or environment variable.
+```sh
+export REMOTE_LOCATION='marysmith@13.17.19.23:\~/Documents'
+sshdl document.pdf
+```
+Downloads document.pdf from the Documents folder in the remote server to a new file document.pdf.
+### sshul
+If the environment varible `REMOTE_LOCATION` is set, use it as the directory to upload to.
+If there is a file called .remoteloc in the present working directory, then it is used as the destination directory.
+The local file overrides the environment variable if both are present.
+
+The scp command is used for uploading, ensure it is available.
+
+Note that the shell is used to run the command, beware of shell expansions in your file or environment variable.
+```sh
+export REMOTE_LOCATION='marysmith@13.17.19.23:\~/Documents'
+sshul document.pdf
+```
+Uploads document.pdf to the Documents folder in the remote server.
 ### tempc
 Temporary code, is for running code without manually creating a file and compiling.
 
