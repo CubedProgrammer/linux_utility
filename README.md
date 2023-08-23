@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -49,7 +49,7 @@ rm *.out
 [separate](#separate)
 [sharg](#sharg)
 [sshdl](#sshdl)
-[sshul](#sslul)
+[sshul](#sshul)
 [tempc](#tempc)
 [tofloat](#tofloat)
 [tohexdec](#tohexdec)
@@ -369,9 +369,15 @@ The scp command is used for downloading, ensure it is available.
 Note that the shell is used to run the command, beware of shell expansions in your file or environment variable.
 ```sh
 export REMOTE_LOCATION='marysmith@13.17.19.23:\~/Documents'
-sshdl document.pdf
+sshdl document.pdf math-homework
 ```
-Downloads document.pdf from the Documents folder in the remote server to a new file document.pdf.
+Downloads document.pdf and math-homework from the Documents folder in the remote server to a new file document.pdf and new directory math-homework.
+
+Equivalent to
+```sh
+scp -r marysmith@13.17.19.23:\~/Documents/document.pdf document.pdf
+scp -r marysmith@13.17.19.23:\~/Documents/math-homework math-homework
+```
 ### sshul
 If the environment varible `REMOTE_LOCATION` is set, use it as the directory to upload to.
 If there is a file called .remoteloc in the present working directory, then it is used as the destination directory.
@@ -382,9 +388,15 @@ The scp command is used for uploading, ensure it is available.
 Note that the shell is used to run the command, beware of shell expansions in your file or environment variable.
 ```sh
 export REMOTE_LOCATION='marysmith@13.17.19.23:\~/Documents'
-sshul document.pdf
+sshul document.pdf math-homework
 ```
-Uploads document.pdf to the Documents folder in the remote server.
+Uploads document.pdf and math-homework to the Documents folder in the remote server.
+
+Equivalent to
+```sh
+scp -r document.pdf marysmith@13.17.19.23:\~/Documents/document.pdf
+scp -r math-homework marysmith@13.17.19.23:\~/Documents/math-homework
+```
 ### tempc
 Temporary code, is for running code without manually creating a file and compiling.
 

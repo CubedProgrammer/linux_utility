@@ -37,7 +37,7 @@ int main(int argl, char *argv[])
         char cmd[441];
         for(int i = 1; i < argl; ++i)
         {
-            sprintf(cmd, "scp %s %s/%s", argv[i], remote, argv[i]);
+            sprintf(cmd, "scp -r %s %s/%s", argv[i], remote, argv[i]);
             system(cmd);
         }
     }

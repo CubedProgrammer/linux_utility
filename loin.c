@@ -24,7 +24,7 @@ int install(const char *arg)
         const char *slashp = strrchr(arg, '/');
         if(slashp != NULL)
             arg = slashp + 1;
-        for(ptr = arg; *ptr != '\0'; ++ptr)
+        for(ptr = arg; *ptr != '\0'; ptr += !fini)
         {
             ch = *ptr;
             if(ch == '.')
