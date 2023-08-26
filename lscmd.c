@@ -46,6 +46,8 @@ void display_trie(const struct trie *trie, const char *prefix)
     }
     if(trie != NULL)
     {
+        if(trie->children[0] != NULL && prefix != NULL)
+            puts(prefix);
         memset(str, 0, sizeof str);
         str[0] = 1;
         str[1] = 0;
@@ -133,7 +135,13 @@ int main(int argl, char *argv[])
             --colon;
         dirstart = colon + 1;
     }
-    display_trie(&trie, argv[1]);
+    if(argl > 2)
+    {
+        for(int i = 1; i < argl; ++i)
+            display_trie(&trie, argv[i]);
+    }
+    else
+        display_trie(&trie, argv[1]);
     free(path);
     return succ;
 }
