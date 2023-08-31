@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c keycode.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -32,6 +32,7 @@ rm *.out
 [jhash](#jhash)
 [jhashrev](#jhashrev)
 [jrand](#jrand)
+[keycode](#keycode)
 [lnc](#lnc)
 [lnc++](#lnc++)
 [loin](#loin)
@@ -206,6 +207,15 @@ Displays twelve iterations, starting with thirteen as the seed.
 
 More precisely, first displays the initial seed.
 Then, displays the seed after calling `java.util.Random.next(int)`, repeated ten more times.
+### keycode
+Displays byte sequences that correspond to terminal key strokes.
+
+The command line argument is the single character sequence that terminates the program, must be a single character.
+If this argument is not present, the default character is ESC.
+```sh
+keycode Q
+```
+Displays key codes until uppercase Q is pressed.
 ### lnc
 Link C, links an object file using a C compiler.
 
