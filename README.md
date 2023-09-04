@@ -96,7 +96,9 @@ Colour picking tool.
 Press lowercase r, g, or b to change the red, green, or blue by one.
 Use uppercase to change by sixteen.
 
-Press X to reverse direction, default is to increase.
+Press X to reverse direction, default is to increase. Press lowercase q to exit.
+
+Displays all the colours given as command line arguments in hexadecimal.
 ### cxso
 C Executable Shared Object, createds a file that is both a shared library and an executable program.
 
