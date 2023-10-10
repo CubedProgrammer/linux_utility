@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c jhash.c jhashrev.c jrand.c keycode.c lnc.c lnc++.c loin.c lsinc.c mft.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -20,6 +20,7 @@ for i in *.out; do loin $i; done
 rm *.out
 ```
 ## Utilities
+[afile](#afile)
 [byteedit](#byteedit)
 [char](#char)
 [chmap](#chmap)
@@ -29,6 +30,7 @@ rm *.out
 [floattoy](#floattoy)
 [fromfloat](#fromfloat)
 [fromhexdec](#fromhexdec)
+[ifile](#ifile)
 [jhash](#jhash)
 [jhashrev](#jhashrev)
 [jrand](#jrand)
@@ -39,6 +41,7 @@ rm *.out
 [lscmd](#lscmd)
 [lsinc](#lsinc)
 [mft](#mft)
+[ofile](#ofile)
 [parg](#parg)
 [pause](#pause)
 [pidx](#pidx)
@@ -59,6 +62,12 @@ rm *.out
 [unic](#unic)
 [zero](#zero)
 
+### afile
+Append data from stdin to a file, the first argument is the file to write to.
+```
+afile a.txt
+```
+Appends data written to stdin to a.txt.
 ### byteedit
 Edit bytes of a file, bytes will be shown in hexadecimal.
 Uses environmental variable EDITOR to determine editor, defaulting to vi if it does not exist.
@@ -183,6 +192,12 @@ fromhexdec a.txt b.txt
 If a.txt has 696a6b, b.txt will contain ijk.
 
 Can be compiled into a shared library that is also an executable, see [cxso](#cxso)
+### ifile
+Write data from a file to stdout, the first argument is the file to read from.
+```
+ifile a.txt
+```
+Reads data in a.txt and writes to stdout.
 ### jhash
 Applies the java hashing algorithm to given strings and outputs the hash.
 ```
@@ -285,6 +300,13 @@ So, use them as placeholders for where the name or type of the program should go
 mft program c
 ```
 Will copy ~/.ftemplates/.c to program.c and do the replacements accordingly.
+### ofile
+Write data from stdin to a file, the first argument is the file to write to.
+The file will be completely cleared before any writing.
+```
+afile a.txt
+```
+Writes data written to stdin to a.txt.
 ### parg
 Displays the command line arguments of the specified process.
 ```
