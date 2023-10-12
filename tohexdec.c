@@ -1,6 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
-const char dl_loader[] __attribute__((section(".interp"))) = "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2";
+#ifndef LOADER
+#define LOADER "/usr/lib/ld-linux-x86-64.so.2"
+#endif
+const char dl_loader[] __attribute__((section(".interp"))) = LOADER;
 size_t tohexdec(void *src, void *dest, int(*gch)(void*), int(*pch)(int, void*))
 {
     size_t cnt = 0;

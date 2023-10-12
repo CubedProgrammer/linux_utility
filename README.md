@@ -192,6 +192,7 @@ fromhexdec a.txt b.txt
 If a.txt has 696a6b, b.txt will contain ijk.
 
 Can be compiled into a shared library that is also an executable, see [cxso](#cxso)
+A default location for dl\_loader is defined, override it by defining the macro LOADER to the desired file.
 ### ifile
 Write data from a file to stdout, the first argument is the file to read from.
 ```
@@ -474,6 +475,7 @@ tohexdec a.txt b.txt
 If a.txt has ijk, b.txt will contain 696a6b.
 
 Can be compiled into a shared library that is also an executable, see [cxso](#cxso)
+A default location for dl\_loader is defined, override it by defining the macro LOADER to the desired file.
 ### tpcsv
 Transpose Comma Separated Values
 Reads CSV files, and transposes the matrix, and writes back into the CSV file.
