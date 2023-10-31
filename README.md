@@ -35,6 +35,7 @@ rm *.out
 [jhashrev](#jhashrev)
 [jrand](#jrand)
 [keycode](#keycode)
+[linewrap](#linewrap)
 [lnc](#lnc)
 [lnc++](#lnc++)
 [loin](#loin)
@@ -73,6 +74,9 @@ Edit bytes of a file, bytes will be shown in hexadecimal.
 Uses environmental variable EDITOR to determine editor, defaulting to vi if it does not exist.
 After editor is closed, converts the saved text from hexadecimal text into raw binary data.
 Any character that is not 0-9, A-Z, a-z will be ignored.
+
+Warning: Some graphical text editors will exit as soon as it is launched.
+This could be because it sees an existing instance and opens it in that instead.
 ```
 byteedit a.txt b.img c.c
 ```
@@ -234,6 +238,21 @@ If this argument is not present, the default character is ESC.
 keycode Q
 ```
 Displays key codes until uppercase Q is pressed.
+### linewrap
+Wraps the lines of a file, ensuring no line has more than a certain amount of characters.
+
+The first parameter is the maximum number of characters per line, call this number n.
+There will be more more than n characters between the previous line break and the next, exception below.
+
+The second and third parameters are the input and output files, respectively.
+
+Line breaks will only replace spaces, character with unicode 0x20.
+
+If a line contains no spaces for more than n characters, then that line will not be broken up.
+```sh
+linewrap 128 a.txt b.txt
+```
+Write a.txt to b.txt, where lines are wrapped at 128 characters.
 ### lnc
 Link C, links an object file using a C compiler.
 
