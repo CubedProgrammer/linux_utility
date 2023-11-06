@@ -31,6 +31,7 @@ rm *.out
 [fromfloat](#fromfloat)
 [fromhexdec](#fromhexdec)
 [ifile](#ifile)
+[indent](#indent)
 [jhash](#jhash)
 [jhashrev](#jhashrev)
 [jrand](#jrand)
@@ -203,6 +204,17 @@ Write data from a file to stdout, the first argument is the file to read from.
 ifile a.txt
 ```
 Reads data in a.txt and writes to stdout.
+### indent
+Adds or removes a certain number of spaces to or from the beginning of each line in a file.
+
+The first argument has three comma-separated numbers. The first number is how many spaces to indent, negative unindents.
+The second and third number is the starting line number and ending line number, inclusive, the first line is line 1.
+
+The second and third argument are the input and output files. They should not be the same file.
+```
+indent 4,2,10 a.txt b.txt
+```
+Indents lines 2 to 10 by 4 spaces.
 ### jhash
 Applies the java hashing algorithm to given strings and outputs the hash.
 ```
