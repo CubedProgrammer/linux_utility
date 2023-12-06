@@ -409,8 +409,10 @@ Uses value of COMPILERPP environment variable as C++ compiler, or c++ if not fou
 Runs a program and detaches the process from terminal.
 Also redirects all standard streams to null device.
 
-If compiled with QUIET macro defined, does not print the process ID.
-Otherwise, shows process ID of launched process.
+Looks at environment variable LU\_SEPARATE\_VERBOSE.
+0 means no output.
+1 means show process ID.
+2 means show process ID in full sentence.
 ```
 separate git push
 ```

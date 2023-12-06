@@ -6,6 +6,7 @@
 int main(int argl, char *argv[])
 {
     int ec, succ = 0;
+    int verbosity = 0;
     int p[2];
     int nullfd = open("/dev/null", O_RDWR);
     pipe(p);
@@ -44,10 +45,16 @@ int main(int argl, char *argv[])
             perror(" failed");
             succ = 1;
         }
-#ifndef QUIET
         else
-            printf("Process with id %d has been created.\n", pid);
-#endif
+        {
+            char *verbosityvar = getenv("LU_SEPARATE_VERBOSE");
+            if(verbosityvar != NULL)
+                verbosity = atoi(verbosityvar);
+            if(verbosity == 2)
+                printf("Process with id %d has been created.\n", pid);
+            else if(verbosity == 1)
+                printf("%d\n", pid);
+        }
     }
     return succ;
 }
