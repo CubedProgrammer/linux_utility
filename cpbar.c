@@ -75,5 +75,11 @@ int main(int argl, char *argv[])
         return 1;
     }
     else
-        return copyfile(argv[1], argv[2], 2097152, 80);
+    {
+        struct winsize dim;
+        unsigned col = 80;
+        if(ioctl(STDIN_FILENO, TIOCGWINSZ, &dim) == 0)
+            col = dim.ws_col;
+        return copyfile(argv[1], argv[2], 2097152, col - 40);
+    }
 }

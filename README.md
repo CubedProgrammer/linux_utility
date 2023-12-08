@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpick.c cxso.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -25,8 +25,10 @@ rm *.out
 [char](#char)
 [chmap](#chmap)
 [clock](#clock)
+[cpbar](#cpbar)
 [cpick](#cpick)
 [cxso](#cxso)
+[ffill](#ffill)
 [floattoy](#floattoy)
 [fromfloat](#fromfloat)
 [fromhexdec](#fromhexdec)
@@ -104,6 +106,10 @@ Shows a twenty-four hour clock, with seconds.
 Exits automatically when typing next command for the shell.
 
 No command line arguments.
+### cpbar
+Copies a file. The first argument is source and second argument is destination.
+
+Shows a progress bar for large files.
 ### cpick
 Colour picking tool.
 
@@ -161,6 +167,15 @@ clang -O3 -c heron.c -fPIC
 cxso -o libheron.so heron.o -lm
 clang -o program.out program.o -L. -lheron
 ```
+### ffill
+Fills a file with a certain number of a specific byte.
+
+First argument is the byte to fill with, in hexadecimal. The second is the number of bytes, in decimal.
+
+All arguments after that are file names, those are the files that will be written to.
+If any of the files do not already exist, they will be created.
+
+This program was made for the sole purpose of testing [cpbar](#cpbar), but may still be useful elsewhere.
 ### floattoy
 Play with a single precision IEEE-754 floating-point number.
 
