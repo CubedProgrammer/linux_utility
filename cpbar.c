@@ -1,5 +1,6 @@
 #include<fcntl.h>
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #include<sys/ioctl.h>
 #include<sys/sendfile.h>
@@ -67,6 +68,38 @@ int copyfile(const char *src, const char *dest, unsigned step, unsigned barlen)
     }
     return succ;
 }
+int copyto(char *namearr[], const char *dir, unsigned arrlen, unsigned step, unsigned barlen)
+{
+    const char *srcpath, *srcname;
+    int succ = 0;
+    char *dest = NULL;
+    unsigned destlen = 0, srcnamelen;
+    unsigned dirlen = strlen(dir);
+    for(unsigned i = 0; i < arrlen; ++i)
+    {
+        srcpath = namearr[i];
+        srcname = strrchr(srcpath, '/');
+        if(srcname == NULL)
+            srcname = srcpath;
+        else
+            ++srcname;
+        srcnamelen = strlen(srcname);
+        if(destlen < srcnamelen + dirlen + 1)
+        {
+            if(dest != NULL)
+                free(dest);
+            destlen = dirlen + srcnamelen + 1;
+            dest = malloc(destlen + 1);
+        }
+        memcpy(dest, dir, dirlen);
+        dest[dirlen] = '/';
+        memcpy(dest + dirlen + 1, srcname, srcnamelen + 1);
+        succ += copyfile(srcpath, dest, step, barlen);
+    }
+    if(dest != NULL)
+        free(dest);
+    return succ;
+}
 int main(int argl, char *argv[])
 {
     if(argl < 3)
@@ -78,8 +111,9 @@ int main(int argl, char *argv[])
     {
         struct winsize dim;
         unsigned col = 80;
+        unsigned step = 2097152;
         if(ioctl(STDIN_FILENO, TIOCGWINSZ, &dim) == 0)
             col = dim.ws_col;
-        return copyfile(argv[1], argv[2], 2097152, col - 40);
+        return argl == 3 ? copyfile(argv[1], argv[2], step, col - 40) : copyto(argv + 1, argv[argl - 1], argl - 2, step, col - 40);
     }
 }
