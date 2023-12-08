@@ -1,5 +1,6 @@
 #include<fcntl.h>
 #include<stdio.h>
+#include<string.h>
 #include<sys/ioctl.h>
 #include<sys/sendfile.h>
 #include<sys/stat.h>
@@ -20,6 +21,9 @@ int copyfile(const char *src, const char *dest, unsigned step, unsigned barlen)
         int mode = fdat.st_mode;
         if(S_ISREG(mode))
         {
+            ssize_t cnt;
+            char bar[961];
+            unsigned progress;
             int in = open(src, O_RDONLY);
             int out = open(dest, O_WRONLY | O_CREAT | O_TRUNC, mode);
             if(in == -1 || out == -1)
@@ -29,8 +33,10 @@ int copyfile(const char *src, const char *dest, unsigned step, unsigned barlen)
             }
             else if(fsize > step)
             {
+                memset(bar, '-', barlen);
+                bar[barlen] = '\0';
                 succ = 0;
-                for(ssize_t cnt; tot < fsize; tot += cnt)
+                while(tot < fsize)
                 {
                     cnt = sendfile(out, in, NULL, step);
                     if(cnt == -1)
@@ -41,7 +47,12 @@ int copyfile(const char *src, const char *dest, unsigned step, unsigned barlen)
                         cnt = 0;
                         succ = -1;
                     }
+                    tot += cnt;
+                    progress = tot * barlen / fsize;
+                    memset(bar, '#', progress);
+                    printf("%zu/%zu [%s]\r", tot, fsize, bar);
                 }
+                putchar('\n');
             }
             else if(sendfile(out, in, NULL, fsize) == -1)
             {
