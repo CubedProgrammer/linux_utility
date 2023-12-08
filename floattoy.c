@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 #include<string.h>
 #ifdef _WIN32
 #include<windows.h>
@@ -25,7 +26,7 @@ void print(union f_i dummy)
         mantstr[i] = '0' + (mant >> (22 - i) & 1);
     expstr[8] = '\0';
     mantstr[23] = '\0';
-    printf("\r0b%u\033\13332m%s\033\13333m%s\033\1330m is %e", sign, expstr, mantstr, dummy.f);
+    printf("\r0b%u\033\13332m%s\033\13333m%s\033\1330m is %-13e", sign, expstr, mantstr, dummy.f);
 }
 int main(int argl, char *argv[])
 {
@@ -46,11 +47,14 @@ int main(int argl, char *argv[])
 #endif
     unsigned i = 0;
     union f_i dummy;
-    dummy.i = i;
+    if(argl > 1)
+        dummy.f = atof(argv[1]);
+    else
+        dummy.i = i;
     print(dummy);
     fputs("\r0b", stdout);
     unsigned pos = 0;
-    for(int cmd = rd(); cmd != 'q'; cmd = rd())
+    for(int cmd = rd(); cmd != 'Q'&& cmd != 'q'; cmd = rd())
     {
         switch(cmd)
         {
