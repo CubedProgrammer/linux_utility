@@ -9,5 +9,7 @@ int main(int argl, char *argv[])
         f = stdin;
     while(!feof(f))
         fwrite(buffer, 1, fread(buffer, 1, sizeof buffer, f), stdout);
+    if(f != stdin)
+        fclose(f);
     return 0;
 }
