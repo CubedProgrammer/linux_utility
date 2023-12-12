@@ -10,7 +10,7 @@ void show(int colour)
 int main(int argl, char *argv[])
 {
     struct termios old, curr;
-    int colour = 0;
+    int colour = 0, changed;
     int direction = 1;
     for(int i = 1; i < argl; ++i)
     {
@@ -24,8 +24,9 @@ int main(int argl, char *argv[])
     curr = old;
     curr.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &curr);
-    for(int ch = getchar(); ch != 'Q' && ch != 'q'; ch = getchar())
+    for(int ch = getchar(); ch != 033 && ch != 'Q' && ch != 'q'; ch = getchar())
     {
+        changed = 1;
         switch(ch)
         {
             case'0':
@@ -54,12 +55,16 @@ int main(int argl, char *argv[])
                 break;
             case'x':
             case'X':
+                changed = 0;
                 direction *= -1;
                 break;
             default:
+                changed = 0;
                 putchar('\a');
+                fflush(stdout);
         }
-        show(colour);
+        if(changed)
+            show(colour);
     }
     tcsetattr(STDIN_FILENO, TCSANOW, &old);
     putchar('\n');

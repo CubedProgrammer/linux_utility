@@ -108,6 +108,7 @@ Exits automatically when typing next command for the shell.
 No command line arguments.
 ### cpbar
 Copies a file. The first argument is source and second argument is destination.
+Or, the last argument is the directory to copy to, all other files will be copied to it.
 
 Shows a progress bar for large files.
 ### cpick
@@ -351,7 +352,7 @@ Will copy ~/.ftemplates/.c to program.c and do the replacements accordingly.
 Write data from stdin to a file, the first argument is the file to write to.
 The file will be completely cleared before any writing.
 ```
-afile a.txt
+ofile a.txt
 ```
 Writes data written to stdin to a.txt.
 ### parg
@@ -388,7 +389,7 @@ The remaining arguments are the program to run and its arguments.
 ```
 preturn x return 91
 ```
-Prints 9.
+Prints 5B
 ### return
 Program exits with specified exit status.
 
