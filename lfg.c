@@ -1,7 +1,12 @@
 #include<stdio.h>
+void printnums(FILE *fh, unsigned cnt, const char *fmt)
+{
+    for(unsigned j = 0; j < cnt; fprintf(fh, fmt, ++j), fputc('\n', fh));
+}
 int main(int argl, char *argv[])
 {
-    if(argl < 4)
+    int succ = 0;
+    if(argl < 3)
         printf("%s <count> f<format> file...\n", argv[0]);
     else
     {
@@ -17,12 +22,23 @@ int main(int argl, char *argv[])
         }
         else
             fmt = argv[2];
+        if(argl == 3)
+            printnums(stdout, cnt, fmt);
         for(int i = 3; i < argl; ++i)
         {
             fh = fopen(argv[i], "a");
-            for(unsigned j = 0; j < cnt; fprintf(fh, fmt, ++j), fputc('\n', fh));
-            fclose(fh);
+            if(fh == NULL)
+            {
+                fprintf(stderr, "Opening %s", argv[i]);
+                perror(" failed");
+                succ = 1;
+            }
+            else
+            {
+                printnums(fh, cnt, fmt);
+                fclose(fh);
+            }
         }
     }
-    return 0;
+    return succ;
 }
