@@ -53,6 +53,10 @@ int main(int argl, char *argv[])
             case'B':
                 colour = colour & 0xffff00 | colour + (direction << 4) & 0xff;
                 break;
+            case'I':
+            case'i':
+                colour = 0xffffff - colour;
+                break;
             case'x':
             case'X':
                 changed = 0;

@@ -117,6 +117,8 @@ Colour picking tool.
 Press lowercase r, g, or b to change the red, green, or blue by one.
 Use uppercase to change by sixteen.
 
+Press I to invert the colour.
+
 Press X to reverse direction, default is to increase. Press lowercase q to exit.
 
 Displays all the colours given as command line arguments in hexadecimal.
