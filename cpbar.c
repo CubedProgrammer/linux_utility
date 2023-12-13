@@ -112,8 +112,37 @@ int main(int argl, char *argv[])
         struct winsize dim;
         unsigned col = 80;
         unsigned step = 2097152;
+        char *arg;
+        int optend = argl;
+        int nxtarg = 0;
         if(ioctl(STDIN_FILENO, TIOCGWINSZ, &dim) == 0)
             col = dim.ws_col;
+        for(int i = 1; i < optend; ++i)
+        {
+            arg = argv[i];
+            if(nxtarg)
+            {
+                switch(nxtarg)
+                {
+                    case 1:
+                        step = atoi(arg);
+                }
+                nxtarg = 0;
+            }
+            else if(arg[0] == '-')
+            {
+                switch(arg[1])
+                {
+                    case'-':
+                        if(strcmp(arg + 2, "barthresh") == 0)
+                            nxtarg = 1;
+                }
+            }
+            else
+                optend = i;
+        }
+        argv += optend - 1;
+        argl -= optend - 1;
         return argl == 3 ? copyfile(argv[1], argv[2], step, col - 40) : copyto(argv + 1, argv[argl - 1], argl - 2, step, col - 40);
     }
 }
