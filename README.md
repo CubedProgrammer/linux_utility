@@ -38,6 +38,7 @@ rm *.out
 [jhashrev](#jhashrev)
 [jrand](#jrand)
 [keycode](#keycode)
+[lfg](#lfg)
 [linewrap](#linewrap)
 [lnc](#lnc)
 [lnc++](#lnc++)
@@ -110,7 +111,14 @@ No command line arguments.
 Copies a file. The first argument is source and second argument is destination.
 Or, the last argument is the directory to copy to, all other files will be copied to it.
 
+Use option --barthresh to set the file size threshold for the progress bar to pop up.
+
 Shows a progress bar for large files.
+```
+cpbar --barthresh 1073741824 A B
+```
+Copies file A to file B, overwriting file B if it existed before.
+If file A is larger than 1 GiB, progress bar shows up.
 ### cpick
 Colour picking tool.
 
@@ -268,6 +276,36 @@ If this argument is not present, the default character is ESC.
 keycode Q
 ```
 Displays key codes until uppercase Q is pressed.
+### lfg
+List File Generator.
+
+A nice blast from the past. Generate a file with a list of numbers, one on each line.
+
+First argument is the size of the list, the file will contain the numbers one through the size.
+
+Second argument is the format of the numbers, it must begin with an f.
+If it is just `f`, default format is used, otherwise, it is a single C printf formate specifier.
+
+Remaining arguments are the files to create.
+```
+lfg 12 f%02u a.txt
+```
+a.txt will contain
+```
+01
+02
+03
+04
+05
+06
+07
+08
+09
+10
+11
+12
+```
+The numbers are printed with %02u using printf, as specified in the second argument.
 ### linewrap
 Wraps the lines of a file, ensuring no line has more than a certain amount of characters.
 
