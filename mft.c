@@ -41,17 +41,20 @@ int main(int argl, char *argv[])
             name = argv[1];
         else
             ++name;
+        char *template = argv[2], *ext = argv[3];
+        if(argl == 3)
+            ext = template;
         char *home = getenv("HOME");
         strcpy(path, home);
-        size_t pathlen = strlen(path), extlen = strlen(argv[2]);
+        size_t pathlen = strlen(path), extlen = strlen(ext);
         strcpy(path + pathlen, "/.ftemplates/.");
         pathlen += 14;
-        strcpy(path + pathlen, argv[2]);
+        strcpy(path + pathlen, template);
         strcpy(dest, argv[1]);
         pathlen = strlen(argv[1]);
         dest[pathlen] = '.';
         ++pathlen;
-        strcpy(dest + pathlen, argv[2]);
+        strcpy(dest + pathlen, ext);
         char replace[2048];
         strcpy(replace, "s/__NAME__/");
         pathlen = 11;

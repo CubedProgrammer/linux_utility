@@ -30,7 +30,7 @@ int main(int argl, char *argv[])
         n *= 1000000000;
         if(strcmp(it, "ms") == 0)
             n /= 1000;
-        else if(strcmp(it, "us") == 0)
+        else if(strcmp(it, "μs") == 0 || strcmp(it, "us") == 0)
             n /= 1000000;
         else if(strcmp(it, "ns") == 0)
             n /= 1000000000;
