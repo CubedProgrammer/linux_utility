@@ -28,6 +28,7 @@ rm *.out
 [cpbar](#cpbar)
 [cpick](#cpick)
 [cxso](#cxso)
+[fexec](#fexec)
 [ffill](#ffill)
 [floattoy](#floattoy)
 [fromfloat](#fromfloat)
@@ -178,6 +179,29 @@ clang -O3 -c heron.c -fPIC
 cxso -o libheron.so heron.o -lm
 clang -o program.out program.o -L. -lheron
 ```
+### fexec
+Executes a file that has a list of command line arguments.
+
+The file contains one command line argument per line, the first argument is also the program to run.
+There are no escape sequences, the line feed character \n is the only separator.
+
+This program takes one argument, the path to the file to be executed. Suppose cmd.txt contains
+```
+cc
+-O3
+-c
+-std=c11
+main.c
+```
+Then the command
+```sh
+fexec cmd.txt
+```
+or
+```sh
+fexec <cmd.txt
+```
+will run the program `cc` with the arguments `cc`, `-O3`, `-c` `-std=c11`, and `main.c`.
 ### ffill
 Fills a file with a certain number of a specific byte.
 
