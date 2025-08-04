@@ -19,7 +19,7 @@ int main(int argl, char *argv[])
     for(ready = 0; ready == 0; ready = select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv))
     {
         clock_gettime(CLOCK_REALTIME, &tm);
-        sec = tm.tv_sec - 1;
+        sec = tm.tv_sec;
         h = sec / 3600 % 24;
         m = sec / 60 % 60;
         s = sec % 60;
