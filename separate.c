@@ -21,6 +21,7 @@ int main(int argl, char *argv[])
         dup2(nullfd, STDIN_FILENO);
         dup2(nullfd, STDOUT_FILENO);
         dup2(nullfd, STDERR_FILENO);
+        close(nullfd);
         execvp(argv[1], argv + 1);
         succ = 1;
         ec = errno;

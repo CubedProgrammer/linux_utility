@@ -21,6 +21,7 @@ rm *.out
 ```
 ## Utilities
 [afile](#afile)
+[alarm](#alarm)
 [byteedit](#byteedit)
 [char](#char)
 [chmap](#chmap)
@@ -60,6 +61,7 @@ rm *.out
 [sharg](#sharg)
 [sshdl](#sshdl)
 [sshul](#sshul)
+[stopwatch](#stopwatch)
 [tempc](#tempc)
 [tofloat](#tofloat)
 [tohexdec](#tohexdec)
@@ -74,6 +76,17 @@ Append data from stdin to a file, the first argument is the file to write to.
 afile a.txt
 ```
 Appends data written to stdin to a.txt.
+### alarm
+Runs a command the next time a 24-hour clock hits a specific time.
+```
+alarm 23:29:31 rm file.txt
+alarm 11 13 vlc ode-to-joy.ogg
+```
+The first command will delete file.txt when 23:29:31 hits. The second will play an audio file when 11:13:00 hits.
+
+The alarm will only run once.
+
+The program will fail silently if the program to be executed does not exist.
 ### byteedit
 Edit bytes of a file, bytes will be shown in hexadecimal.
 Uses environmental variable EDITOR to determine editor, defaulting to vi if it does not exist.
@@ -545,6 +558,10 @@ Equivalent to
 scp -r document.pdf marysmith@13.17.19.23:\~/Documents/document.pdf
 scp -r math-homework marysmith@13.17.19.23:\~/Documents/math-homework
 ```
+### stopwatch
+A stop watch on the command line, press RETURN to record a time, press ESC to exit the program.
+
+Millisecond precision.
 ### tempc
 Temporary code, is for running code without manually creating a file and compiling.
 
