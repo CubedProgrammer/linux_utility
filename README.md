@@ -53,6 +53,7 @@ rm *.out
 [pause](#pause)
 [pidx](#pidx)
 [preturn](#preturn)
+[remind](#remind)
 [return](#return)
 [reverse](#reverse)
 [runc](#runc)
@@ -467,6 +468,18 @@ The remaining arguments are the program to run and its arguments.
 preturn x return 91
 ```
 Prints 5B
+### remind
+Executes a command after a specified duration.
+
+If there is one duration argument, it is in seconds, if there are two, minutes and seconds.
+Up to five duration arguments are supported, weeks, days, hours, minutes, seconds.
+
+```
+remind 10 vlc ode-to-joy.ogg
+remind 1 30 0 brave https://github.com
+```
+The first command will play an audio file using VLC in ten seconds.
+The second will open GitHub in Brave browser in a hour and thirty minutes.
 ### return
 Program exits with specified exit status.
 
