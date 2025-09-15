@@ -46,10 +46,10 @@ void putunic(int ch)
     }
     fputs(cbuf, stdout);
 }
-void display(int start)
+void display(int start, int len)
 {
     start <<= 4;
-    for(unsigned i = 0; i < 16; ++i)
+    for(unsigned i = 0; i < len; ++i)
     {
         for(unsigned j = 0; j < 16; ++j)
             putunic(start + i * 16 + j + 1);
@@ -61,13 +61,18 @@ int main(int argl, char *argv[])
 {
     struct termios o, n;
     int curr = 0;
+    int len = 16;
     if(argv[1] != NULL)
+    {
         curr = atoi(argv[1]);
+        if(argv[2] != NULL)
+            len = atoi(argv[2]);
+    }
     tcgetattr(STDIN_FILENO, &o);
     n = o;
     n.c_lflag &= ~(ECHO | ICANON);
     tcsetattr(STDIN_FILENO, TCSANOW, &n);
-    display(curr);
+    display(curr, len);
     for(int ch = readkey(); ch != 27; ch = readkey())
     {
         switch(ch)
@@ -92,7 +97,7 @@ int main(int argl, char *argv[])
                 ring;
         }
         fputs("\033\13316F", stdout);
-        display(curr);
+        display(curr, len);
     }
     tcsetattr(STDIN_FILENO, TCSANOW, &o);
     return 0;
