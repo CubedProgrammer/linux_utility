@@ -16,7 +16,21 @@ void convert(FILE *restrict in, FILE *restrict out)
             lastlf = 1;
             fputs(CLOSING, out);
         }
-        fputc(c, out);
+        switch(c)
+        {
+            case'>':
+                fputs("&gt;", out);
+                break;
+            case'<':
+                fputs("&lt;", out);
+                break;
+            case'&':
+                fputs("&amp;", out);
+                break;
+            default:
+                fputc(c, out);
+                break;
+        }
     }
 }
 int main(int argl, char *argv[])
