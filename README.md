@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lfg.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c unic.c zero.c
+clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lfg.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c txthtml.c unic.c zero.c
 clang -O3 -c clock.c lscmd.c pause.c
 clang -o lnc.out lnc.o
 rm lnc.o
@@ -68,6 +68,7 @@ rm *.out
 [tohexdec](#tohexdec)
 [tpcsv](#tpcsv)
 [ttylog](#ttylog)
+[txthtml](#txthtml)
 [unic](#unic)
 [zero](#zero)
 
@@ -110,11 +111,13 @@ Prints `!"` to the console.
 ### chmap
 A character map.
 
-Using up and down arrows to move by one row, page up and page down to move by 256.
+First argument is starting row, second argument is number of rows to display at once.
+
+Using up and down arrows to move by one row, page up and page down to move by all rows.
 
 Exit using the escape key.
 
-Requires the terminal to be at least sixteen by sixteen.
+Requires the terminal to be at least sixteen by number of rows.
 ### clock
 A clock that uses the command-line interface.
 
@@ -631,6 +634,12 @@ Teletype log, logs data displayed by a virtual terminal.
 Spawns a new virtual terminal, running /usr/bin/bash if SHELL environment variable is empty.
 If the first argument is present, it shall be used as the log file, otherwise, ttylog.log is used.
 
+### txthtml
+Converts a txt file to a partial HTML file, that is, without head and body tags.
+```sh
+txthtml input.txt output.html
+```
+If input or output is omitted, standard input or output will be used.
 ### unic
 Unicode, displays the unicode values of characters.
 
