@@ -48,6 +48,7 @@ rm *.out
 [lscmd](#lscmd)
 [lsinc](#lsinc)
 [mft](#mft)
+[mvdl](#mvdl)
 [ofile](#ofile)
 [parg](#parg)
 [pause](#pause)
@@ -429,6 +430,19 @@ So, use them as placeholders for where the name or type of the program should go
 mft program c
 ```
 Will copy ~/.ftemplates/.c to program.c and do the replacements accordingly.
+### mvdl
+Move a specified number of files from the Downloads folder.
+
+The first argument is the number of files to move, sorted by most recently modified.
+
+The second argument could be a directory, if it is, all the files are moved there.
+Otherwise, the it is the destination of the first most recently modified file.
+
+The third argument is the destination of the second most recently modified file, and so on.
+```
+mvdl 3 .
+```
+Moves 3 of the most recently modified files from the Downloads folder into the current directory.
 ### ofile
 Write data from stdin to a file, the first argument is the file to write to.
 The file will be completely cleared before any writing.
