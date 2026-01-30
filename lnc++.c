@@ -12,8 +12,10 @@ int main(int argl, char *argv[])
         strcat(obj, ".o");
         strcpy(exe, obj);
         strcat(exe, "ut");
-        char compiler[128];
-        strcpy(compiler, getenv("COMPILERPP"));
+        char compiler[128] = "c++";
+        char *envdat = getenv("COMPILERPP");
+        if(envdat != NULL)
+            strcpy(compiler, envdat);
         char **pargls = malloc((argl + 3) * sizeof(*pargls));
         pargls[0] = compiler;
         pargls[1] = obj;
