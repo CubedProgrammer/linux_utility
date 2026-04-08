@@ -5,8 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -std=c99 -O3 -c afile.c byteedit.c char.c chmap.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lfg.c lnc.c lnc++.c loin.c lsinc.c mft.c ofile.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c txthtml.c unic.c zero.c
-clang -O3 -c clock.c lscmd.c pause.c
+clang -O3 -c afile.c byteedit.c char.c chmap.c clock.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lfg.c lnc.c lnc++.c loin.c lscmd.c lsinc.c mft.c mvdl.c ofile.c pause.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c txthtml.c unic.c zero.c
 clang -o lnc.out lnc.o
 rm lnc.o
 for i in *.o; do i=${i::-2}; ./lnc.out $i; done
@@ -398,11 +397,11 @@ Looks in the directories of PATH environment variable for executable programs.
 If two programs has the same file name but in different directories, it is only listed once.
 Only lists file name if the file is a regular file with execute permission or a symbolic link.
 
-The first argument is the prefix, if present, program only lists commands with that prefix.
+The arguments are prefixes, if present, program only lists commands with either of the prefixes list
 ```
-lscmd ssh
+lscmd gnome java ssh
 ```
-Lists all commands beginning with ssh.
+Lists all commands beginning with `gnome`, `java`, or `ssh`.
 ### lsinc
 List includes, lists the files included by a C or C++ source file.
 
@@ -667,6 +666,10 @@ Fills a file with zeros.
 
 File size may be expanded, all bytes are overwritten with zero.
 Each argument is a file to clear with zeros.
+
+Number of bytes to write can be specified before the file.
 ```
-zero file.txt
+zero file.txt -64file.png
 ```
+Write zeros to file.txt equal to its size as determined by the stat system call.
+Write 64 zeros to file.png

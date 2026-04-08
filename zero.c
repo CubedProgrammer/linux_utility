@@ -23,7 +23,7 @@ int main(int argl, char *argv[])
             ret = stat(filename, &fdat) * -1;
             if(ret)
             {
-                fprintf(stderr, "stat %s", argv[i]);
+                fprintf(stderr, "stat %s", filename);
                 perror(" failed");
             }
             else
