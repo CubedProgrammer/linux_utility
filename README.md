@@ -5,7 +5,7 @@ Most files are built individually.
 
 Quick compilation script, replace clang with gcc if preferred.
 ```sh
-clang -O3 -c afile.c byteedit.c char.c chmap.c clock.c cpbar.c cpick.c cxso.c ffill.c floattoy.c fromfloat.c fromhexdec.c ifile.c jhash.c jhashrev.c jrand.c keycode.c lfg.c lnc.c lnc++.c loin.c lscmd.c lsinc.c mft.c mvdl.c ofile.c pause.c pidx.c preturn.c return.c reverse.c runc.c runc++.c separate.c sharg.c sshdl.c sshul.c tempc.c tofloat.c tohexdec.c tpcsv.c ttylog.c txthtml.c unic.c zero.c
+clang -O3 -c *.c
 clang -o lnc.out lnc.o
 rm lnc.o
 for i in *.o; do i=${i::-2}; ./lnc.out $i; done
@@ -60,9 +60,11 @@ rm *.out
 [runc++](#runc++)
 [separate](#separate)
 [sharg](#sharg)
+[spheremesh](#spheremesh)
 [sshdl](#sshdl)
 [sshul](#sshul)
 [stopwatch](#stopwatch)
+[swapmove](#swapmove)
 [tempc](#tempc)
 [tofloat](#tofloat)
 [tohexdec](#tohexdec)
@@ -549,6 +551,27 @@ This can be useful when command line arguments are shell expansions.
 sharg ~ ${SHELL:1:3}
 ```
 Displays home directory and a substring of the SHELL variable, on the shell.
+### spheremesh
+Generates a list of triangular faces to approximate a sphere.
+
+The first three arguments are the x, y, z values of the center of the sphere.
+
+The fourth argument is the radius of the sphere.
+
+The fifth argument is the precision, that is, the angle of pitch/yaw is PI/2/precision.
+
+The sixth argument is true or false.
+True if you want each triangular/quadrilateral face of the approximation.
+False if you just want the list of vertices.
+
+The faces have the following format, the first number is N, the number of vertices in the face.
+Then, 3N numbers follow, the coordinates of each vertex.
+Then, three numbers follow, the vector that points from the center of the sphere to the center of the face.
+Note: This vector is not normalized.
+```
+spheremesh 3 4 5 11 6 true
+```
+Prints the faces of the approximation, with each vertex being 15 degrees from its neighbours in pitch and yaw.
 ### sshdl
 If the environment varible `REMOTE_LOCATION` is set, use it as the directory to download to.
 If there is a file called .remoteloc in the present working directory, then it is used as the source directory.
@@ -591,6 +614,12 @@ scp -r math-homework marysmith@13.17.19.23:\~/Documents/math-homework
 A stop watch on the command line, press RETURN to record a time, press ESC to exit the program.
 
 Millisecond precision.
+### swapmove
+Given two files, swap them.
+Specifically, given files A and B, after swapping, A will have the contents and metadata of B, and vice versa.
+```sh
+swapmove a.txt b.txt
+```
 ### tempc
 Temporary code, is for running code without manually creating a file and compiling.
 
