@@ -66,6 +66,7 @@ rm *.out
 [stopwatch](#stopwatch)
 [swapmove](#swapmove)
 [tempc](#tempc)
+[textgen](#textgen)
 [tofloat](#tofloat)
 [tohexdec](#tohexdec)
 [tpcsv](#tpcsv)
@@ -642,6 +643,54 @@ If the .ftemplates directory exits in the home directory, mft will be used to in
 tempc c prog
 ```
 Creates a temporary program prog.c, opens editor, compiles and runs it after closing editor.
+### textgen
+Generates text for a file or multiple files based on a template and some arguments.
+
+The first argument should be the template file, the second should be the argument file.
+
+The template file contains text, where $ indicates for an argument to be placed.
+The number after the $ is the index of the argument, only a single character is used for the number.
+That is to say `$13` will be interpreted as `$1`, followed by 3, and will not extract the 14th argument.
+Arguments are zero indexed, you should not need more than ten arguments.
+
+To write a $, write `$$` in the template file.
+
+The second argument should be the arguments file.
+
+The arguments file is a csv file, for each entry, text will be generated based on the template.
+Text will be generated once for each entry in the arguments file.
+As it is a csv file, each argument is separated by a comma.
+If an argument is contains a comma, escape it with `\`, that is, `\,` is `,` and `\\` is `\`.
+
+Suppose the template file is `template.txt` and contains the following.
+```
+Hi, $0, I am $1.
+We should $2.
+$$10 will not fetch the eleventh argument, $10 is generated instead.
+```
+And the arguments file is `argument.csv` and contains the following.
+```
+Alice,Bob,play football
+Charlotte,Dave,watch a movie
+Emily,Fred,kill Gracie\, Hank\, and Irene
+```
+The command
+```
+textgen template.txt argument.csv output.txt
+```
+Should generate
+```
+Hi, Alice, I am Bob.
+We should play football.
+$10 will not fetch the eleventh argument, Bob0 is generated instead.
+Hi, Charlotte, I am Dave.
+We should watch a movie.
+$10 will not fetch the eleventh argument, Dave0 is generated instead.
+Hi, Emily, I am Fred.
+We should kill Gracie, Hank, and Irene.
+$10 will not fetch the eleventh argument, Fred0 is generated instead.
+```
+in `output.txt`.
 ### tofloat
 Shows decimal value of the bytes of a single-precision IEEE-754 floating-point number.
 
